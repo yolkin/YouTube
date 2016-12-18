@@ -55,6 +55,7 @@ class TabBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         cell.cellIcon.image = UIImage(named: iconNames[indexPath.item])?.withRenderingMode(.alwaysTemplate)
         cell.tintColor = UIColor.lightGray
+        cell.cellLabel.text = "\(iconNames[indexPath.item].capitalized)"
         
         return cell
     }
