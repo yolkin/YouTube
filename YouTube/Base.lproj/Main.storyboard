@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="fh0-Gb-p5Q">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="mxI-jq-VIw">
+            <objects>
+                <collectionViewController id="chK-WI-wpv" customClass="HomeViewController" customModule="YouTube" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Mg0-vA-GAn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eqH-8K-szb">
+                            <size key="itemSize" width="375" height="200"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="pdn-yN-Iu6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="202"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="202"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drake_hotline_bling" translatesAutoresizingMaskIntoConstraints="NO" id="G7H-bj-ODb">
+                                            <rect key="frame" x="16" y="16" width="343" height="89"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drake" translatesAutoresizingMaskIntoConstraints="NO" id="xj4-pd-Jf4">
+                                            <rect key="frame" x="16" y="114" width="36" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="i30-eN-2Ha"/>
+                                                <constraint firstAttribute="width" constant="36" id="sYb-dv-KMJ"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="18"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drake – Hotline Bling" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbk-x2-VbP">
+                                            <rect key="frame" x="68" y="113" width="291" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="IJU-9M-jkX"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="DrakeVEVO · 1 million views 1 year ago" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGe-GI-0i8">
+                                            <rect key="frame" x="68" y="137" width="291" height="45"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                                    <rect key="value" x="0.0" y="-4" width="0.0" height="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </textView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xwh-vm-EGW">
+                                            <rect key="frame" x="0.0" y="198" width="375" height="0.0"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </subviews>
+                                </view>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="G7H-bj-ODb" firstAttribute="top" secondItem="pdn-yN-Iu6" secondAttribute="topMargin" constant="8" id="0aH-Sv-XCe"/>
+                                    <constraint firstItem="xj4-pd-Jf4" firstAttribute="leading" secondItem="pdn-yN-Iu6" secondAttribute="leadingMargin" constant="8" id="2a6-BI-pBk"/>
+                                    <constraint firstItem="xj4-pd-Jf4" firstAttribute="top" secondItem="G7H-bj-ODb" secondAttribute="bottom" constant="9" id="5fR-Bk-oCV"/>
+                                    <constraint firstItem="Xwh-vm-EGW" firstAttribute="leading" secondItem="pdn-yN-Iu6" secondAttribute="leading" id="8zr-ih-sJe"/>
+                                    <constraint firstItem="Xwh-vm-EGW" firstAttribute="centerX" secondItem="G7H-bj-ODb" secondAttribute="centerX" id="A0q-3s-ibl"/>
+                                    <constraint firstItem="G7H-bj-ODb" firstAttribute="leading" secondItem="pdn-yN-Iu6" secondAttribute="leadingMargin" constant="8" id="Auu-CF-TBj"/>
+                                    <constraint firstItem="Xwh-vm-EGW" firstAttribute="top" secondItem="xj4-pd-Jf4" secondAttribute="bottom" constant="48" id="C84-gQ-UCX"/>
+                                    <constraint firstItem="tbk-x2-VbP" firstAttribute="top" secondItem="G7H-bj-ODb" secondAttribute="bottom" constant="8" id="Dq4-Lw-Wtf"/>
+                                    <constraint firstItem="UGe-GI-0i8" firstAttribute="leading" secondItem="tbk-x2-VbP" secondAttribute="leading" id="L6F-BU-dUH"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Xwh-vm-EGW" secondAttribute="trailing" constant="-8" id="Wmy-uu-Moe"/>
+                                    <constraint firstItem="tbk-x2-VbP" firstAttribute="leading" secondItem="xj4-pd-Jf4" secondAttribute="trailing" constant="16" id="a48-jS-kAn"/>
+                                    <constraint firstItem="UGe-GI-0i8" firstAttribute="top" secondItem="tbk-x2-VbP" secondAttribute="bottom" constant="4" id="bkq-uH-sAD"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="G7H-bj-ODb" secondAttribute="trailing" constant="8" id="i3f-Mm-Quy"/>
+                                    <constraint firstItem="UGe-GI-0i8" firstAttribute="trailing" secondItem="tbk-x2-VbP" secondAttribute="trailing" id="ljh-53-IWe"/>
+                                    <constraint firstItem="G7H-bj-ODb" firstAttribute="trailing" secondItem="tbk-x2-VbP" secondAttribute="trailing" id="nds-Uo-1PR"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xwh-vm-EGW" secondAttribute="bottom" constant="4" id="waH-7s-p7R"/>
+                                </constraints>
+                                <size key="customSize" width="375" height="202"/>
+                                <connections>
+                                    <outlet property="subtitleText" destination="UGe-GI-0i8" id="q2r-9w-80v"/>
+                                    <outlet property="thumbnailImage" destination="G7H-bj-ODb" id="EMs-bG-ujD"/>
+                                    <outlet property="title" destination="tbk-x2-VbP" id="S0s-qQ-vkE"/>
+                                    <outlet property="userProfileImage" destination="xj4-pd-Jf4" id="8tZ-yg-rgH"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="chK-WI-wpv" id="WT3-JG-YJI"/>
+                            <outlet property="delegate" destination="chK-WI-wpv" id="3JY-oR-UqH"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="9fK-2z-vZ6"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oON-Hs-FMQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1404" y="641.82908545727139"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gku-mQ-E2h">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fh0-Gb-p5Q" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0JU-iD-qWd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.90196078431372551" green="0.12549019607843137" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="chK-WI-wpv" kind="relationship" relationship="rootViewController" id="SlH-9z-CWZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j7r-Ki-Toy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="464.80000000000001" y="641.82908545727139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="drake" width="176" height="176"/>
+        <image name="drake_hotline_bling" width="1280" height="720"/>
+    </resources>
+</document>
