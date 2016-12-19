@@ -13,6 +13,26 @@ private let reuseIdentifier = "Cell"
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
+    var videos: [Video] = {
+        var drakeChannel = Channel()
+        drakeChannel.channelName = "DrakeVEVO"
+        drakeChannel.profileImage = "drake"
+        
+        var hotlineBling = Video()
+        hotlineBling.videoTitle = "Drake – Hotline Bling"
+        hotlineBling.thumbnailImage = "drake_hotline_bling"
+        hotlineBling.numberOfViews = "1 million views"
+        hotlineBling.channel = drakeChannel
+        
+        var tamale = Video()
+        tamale.videoTitle = "Tyler, The Creator – Tamale"
+        tamale.thumbnailImage = "tamale"
+        tamale.numberOfViews = "753 thousands views"
+        tamale.channel = drakeChannel
+        
+        return [hotlineBling, tamale]
+    }()
+    
     let tabBar: TabBar = {
         let tb = TabBar()
         tb.translatesAutoresizingMaskIntoConstraints = false
@@ -39,12 +59,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.text = "YouTube"
         titleLabel.textColor = UIColor.white
-        titleLabel.font = UIFont.systemFont(ofSize: 20)
+        titleLabel.font = UIFont.systemFont(ofSize: 18)
         navigationItem.titleView = titleLabel
         
         self.collectionView!.register(VideoCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         customTabBar()
+        setupNavigationBarButtons()
     }
     
     func customTabBar() {
@@ -61,20 +82,42 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         view.addConstraints(verticalConstraints)
         view.addConstraints(horizontalConstraintsForSeparator)
     }
+    
+    func setupNavigationBarButtons() {
+        let videoBarButton = UIBarButtonItem(image: UIImage(named: "video")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(videoAction))
+        let searchBarButton = UIBarButtonItem(image: UIImage(named: "search_icon")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(searchAction))
+        let userProfileBarButton = UIBarButtonItem(image: UIImage(named: "user_profile")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(userProfileAction))
+        
+        navigationItem.rightBarButtonItems = [userProfileBarButton, searchBarButton, videoBarButton]
+    }
+    
+    func videoAction() {
+        
+    }
+    
+    func searchAction() {
+        
+    }
+    
+    func userProfileAction() {
+        
+    }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return videos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
+        
+        cell.video = videos[indexPath.item]
 
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = (view.frame.width - 16 * 2) * 9 / 16
-        return CGSize(width: view.frame.width, height: height + 84)
+        return CGSize(width: view.frame.width, height: height + 104)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

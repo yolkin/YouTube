@@ -10,6 +10,32 @@ import UIKit
 
 class VideoCell: UICollectionViewCell {
     
+    var video: Video? {
+        didSet {
+            thumbnailImage.image = UIImage(named: (video?.thumbnailImage)!)
+            videoTitle.text = video?.videoTitle
+            
+            if let profileImageName = video?.channel?.profileImage {
+                profileImage.image = UIImage(named: profileImageName)
+            }
+            
+            if let name = video?.channel?.channelName, let views = video?.numberOfViews {
+                videoSubtitle.text = "\(name) · \(views) \n2 year ago"
+            }
+            
+            if let title = video?.videoTitle {
+                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                let estimatedRect = NSString(string: title).boundingRect(with: CGSize(width: frame.width - 84, height: 1000), options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)], context: nil)
+                
+                if estimatedRect.size.height > 20 {
+                    heightVideoTitleConstraint?.constant = 44
+                } else {
+                    heightVideoTitleConstraint?.constant = 20
+                }
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         customizeCell()
@@ -61,6 +87,8 @@ class VideoCell: UICollectionViewCell {
         return textView
     }()
     
+    var heightVideoTitleConstraint: NSLayoutConstraint?
+    
     func customizeCell() {
         let cellItems = [thumbnailImage, separator, profileImage, videoTitle, videoSubtitle]
         
@@ -71,7 +99,7 @@ class VideoCell: UICollectionViewCell {
         let views = ["thumbnail": thumbnailImage, "separator": separator, "profileImage": profileImage]
         
         let horizontalConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[thumbnail]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
-        let verticalContraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[thumbnail]-8-[profileImage(44)]-16-[separator(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
+        let verticalContraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[thumbnail]-8-[profileImage(44)]-36-[separator(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         
         let horizontalSeparatorConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[separator]|", options: NSLayoutFormatOptions(), metrics: nil, views: views)
         
@@ -81,7 +109,7 @@ class VideoCell: UICollectionViewCell {
         let topVideoTitleConstraint = NSLayoutConstraint(item: videoTitle, attribute: .top, relatedBy: .equal, toItem: thumbnailImage, attribute: .bottom, multiplier: 1, constant: 8)
         let leftVideoTitleConstraint = NSLayoutConstraint(item: videoTitle, attribute: .left, relatedBy: .equal, toItem: profileImage, attribute: .right, multiplier: 1, constant: 8)
         let rightVideoTitleConstraint = NSLayoutConstraint(item: videoTitle, attribute: .right, relatedBy: .equal, toItem: thumbnailImage, attribute: .right, multiplier: 1, constant: 0)
-        let heightVideoTitleConstraint = NSLayoutConstraint(item: videoTitle, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 20)
+        heightVideoTitleConstraint = NSLayoutConstraint(item: videoTitle, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 44)
         
         //Video subtitle constrains
         let topVideoSubtitleConstraint = NSLayoutConstraint(item: videoSubtitle, attribute: .top, relatedBy: .equal, toItem: videoTitle, attribute: .bottom, multiplier: 1, constant: 4)
@@ -94,7 +122,7 @@ class VideoCell: UICollectionViewCell {
             addConstraints(constraints)
         }
         
-        let videoTitleAndSubtitleConstraints = [topVideoTitleConstraint, leftVideoTitleConstraint, rightVideoTitleConstraint, heightVideoTitleConstraint, topVideoSubtitleConstraint, leftVideoSubtitleConstraint, rightVideoSubtitleConstraint, heightVideoSubtitleConstraint]
+        let videoTitleAndSubtitleConstraints = [topVideoTitleConstraint, leftVideoTitleConstraint, rightVideoTitleConstraint, heightVideoTitleConstraint!, topVideoSubtitleConstraint, leftVideoSubtitleConstraint, rightVideoSubtitleConstraint, heightVideoSubtitleConstraint]
         for (_, constraint) in videoTitleAndSubtitleConstraints.enumerated() {
             addConstraint(constraint)
         }
