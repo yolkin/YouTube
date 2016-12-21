@@ -13,41 +13,72 @@ private let reuseIdentifier = "Cell"
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
-    var videos: [Video] = {
-        var drakeChannel = Channel()
-        drakeChannel.channelName = "DrakeVEVO"
-        drakeChannel.profileImage = "drake"
-        
-        var hotlineBling = Video()
-        hotlineBling.videoTitle = "Drake – Hotline Bling"
-        hotlineBling.thumbnailImage = "drake_hotline_bling"
-        hotlineBling.numberOfViews = "1 million views"
-        hotlineBling.channel = drakeChannel
-        
-        var tamale = Video()
-        tamale.videoTitle = "Tyler, The Creator – Tamale"
-        tamale.thumbnailImage = "tamale"
-        tamale.numberOfViews = "753 thousands views"
-        tamale.channel = drakeChannel
-        
-        return [hotlineBling, tamale]
-    }()
+//    var videos: [Video] = {
+//        var drakeChannel = Channel()
+//        drakeChannel.channelName = "DrakeVEVO"
+//        drakeChannel.profileImage = "drake"
+//        
+//        var hotlineBling = Video()
+//        hotlineBling.videoTitle = "Drake – Hotline Bling"
+//        hotlineBling.thumbnailImage = "drake_hotline_bling"
+//        hotlineBling.numberOfViews = "1 million views"
+//        hotlineBling.channel = drakeChannel
+//        
+//        var tamale = Video()
+//        tamale.videoTitle = "Tyler, The Creator – Tamale"
+//        tamale.thumbnailImage = "tamale"
+//        tamale.numberOfViews = "753 thousands views"
+//        tamale.channel = drakeChannel
+//        
+//        return [hotlineBling, tamale]
+//    }()
     
-    let tabBar: TabBar = {
-        let tb = TabBar()
-        tb.translatesAutoresizingMaskIntoConstraints = false
-        return tb
-    }()
+    var videos: [Video]?
     
-    let separatorForTabBar: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    func getVideos() {
+        let url = URL(string: "https://www.dropbox.com/s/orjuv0w2ycsqc61/home.json?dl=1")
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                self.videos = [Video]()
+                
+                for dictionary in json as! [[String: AnyObject]] {
+                    let video = Video()
+                    video.videoTitle = dictionary["title"] as? String
+                    video.thumbnailImage = dictionary["thumbnail_image_name"] as? String
+                    
+                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
+                    
+                    let channel = Channel()
+                    channel.channelName = channelDictionary["name"] as? String
+                    channel.profileImage = channelDictionary["profile_image_name"] as? String
+                    
+                    video.channel = channel
+                    
+                    self.videos?.append(video)
+                }
+                
+                DispatchQueue.main.async { [unowned self] in
+                    self.collectionView?.reloadData()
+                }
+                
+            } catch let jsonError {
+                print(jsonError)
+            }
+
+        }.resume()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getVideos()
 
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
@@ -67,6 +98,19 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         customTabBar()
         setupNavigationBarButtons()
     }
+    
+    let tabBar: TabBar = {
+        let tb = TabBar()
+        tb.translatesAutoresizingMaskIntoConstraints = false
+        return tb
+    }()
+    
+    let separatorForTabBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     func customTabBar() {
         view.addSubview(tabBar)
@@ -104,13 +148,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos?.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
         
-        cell.video = videos[indexPath.item]
+        cell.video = videos?[indexPath.item]
 
         return cell
     }

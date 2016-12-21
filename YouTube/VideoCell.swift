@@ -12,12 +12,10 @@ class VideoCell: UICollectionViewCell {
     
     var video: Video? {
         didSet {
-            thumbnailImage.image = UIImage(named: (video?.thumbnailImage)!)
+            downloadThumbnail()
+            downloadProfileImage()
             videoTitle.text = video?.videoTitle
             
-            if let profileImageName = video?.channel?.profileImage {
-                profileImage.image = UIImage(named: profileImageName)
-            }
             
             if let name = video?.channel?.channelName, let views = video?.numberOfViews {
                 videoSubtitle.text = "\(name) · \(views) \n2 year ago"
@@ -45,8 +43,8 @@ class VideoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let thumbnailImage: UIImageView = {
-        let imageView = UIImageView()
+    let thumbnailImage: ModifiedImageView = {
+        let imageView = ModifiedImageView()
         imageView.image = UIImage(named: "drake_hotline_bling")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -61,12 +59,13 @@ class VideoCell: UICollectionViewCell {
         return view
     }()
     
-    let profileImage: UIImageView = {
-        let imageView = UIImageView()
+    let profileImage: ModifiedImageView = {
+        let imageView = ModifiedImageView()
         imageView.image = UIImage(named: "drake")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -129,4 +128,50 @@ class VideoCell: UICollectionViewCell {
 
     }
     
+    func downloadThumbnail() {
+        if let imageURL = video?.thumbnailImage {
+            thumbnailImage.downloadImageWith(imageURL: imageURL)
+        }
+    }
+    
+    func downloadProfileImage() {
+        if let profileImageURL = video?.channel?.profileImage {
+            profileImage.downloadImageWith(imageURL: profileImageURL)
+        }
+    }
+    
+}
+
+class ModifiedImageView: UIImageView {
+    
+    let cache = NSCache<NSString, UIImage>()
+    var urlString: String?
+    
+    func downloadImageWith(imageURL: String) {
+        urlString = imageURL
+        let url = URL(string: imageURL)
+        image = nil
+        
+        if let cachedImage = cache.object(forKey: imageURL as NSString) {
+            self.image = cachedImage
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            DispatchQueue.main.async { [unowned self] in
+                let cacheImage = UIImage(data: data!)
+                
+                if self.urlString == imageURL {
+                    self.image = cacheImage
+                }
+                
+                self.cache.setObject(cacheImage!, forKey: imageURL as NSString)
+            }
+        }).resume()
+    }
 }
