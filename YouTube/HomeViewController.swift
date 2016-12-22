@@ -12,96 +12,51 @@ private let reuseIdentifier = "Cell"
 
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-//    var videos: [Video] = {
-//        var drakeChannel = Channel()
-//        drakeChannel.channelName = "DrakeVEVO"
-//        drakeChannel.profileImage = "drake"
-//        
-//        var hotlineBling = Video()
-//        hotlineBling.videoTitle = "Drake – Hotline Bling"
-//        hotlineBling.thumbnailImage = "drake_hotline_bling"
-//        hotlineBling.numberOfViews = "1 million views"
-//        hotlineBling.channel = drakeChannel
-//        
-//        var tamale = Video()
-//        tamale.videoTitle = "Tyler, The Creator – Tamale"
-//        tamale.thumbnailImage = "tamale"
-//        tamale.numberOfViews = "753 thousands views"
-//        tamale.channel = drakeChannel
-//        
-//        return [hotlineBling, tamale]
-//    }()
     
     var videos: [Video]?
     
     func getVideos() {
-        let url = URL(string: "https://www.dropbox.com/s/orjuv0w2ycsqc61/home.json?dl=1")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                
-                self.videos = [Video]()
-                
-                for dictionary in json as! [[String: AnyObject]] {
-                    let video = Video()
-                    video.videoTitle = dictionary["title"] as? String
-                    video.thumbnailImage = dictionary["thumbnail_image_name"] as? String
-                    
-                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
-                    
-                    let channel = Channel()
-                    channel.channelName = channelDictionary["name"] as? String
-                    channel.profileImage = channelDictionary["profile_image_name"] as? String
-                    
-                    video.channel = channel
-                    
-                    self.videos?.append(video)
-                }
-                
-                DispatchQueue.main.async { [unowned self] in
-                    self.collectionView?.reloadData()
-                }
-                
-            } catch let jsonError {
-                print(jsonError)
-            }
-
-        }.resume()
+        Maintenance.sharedInstance.getVideos { (videos: [Video]) in
+            self.videos = videos
+            self.collectionView?.reloadData()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getVideos()
-
-        collectionView?.backgroundColor = UIColor.white
-        collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0)
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 230/255, green: 32/255, blue: 31/255, alpha: 1)
         navigationController?.navigationBar.isTranslucent = false
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
-        titleLabel.text = "YouTube"
+        titleLabel.text = "  YouTube"
         titleLabel.textColor = UIColor.white
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         navigationItem.titleView = titleLabel
         
-        self.collectionView!.register(VideoCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
+        setupCollectionView()
         customTabBar()
         setupNavigationBarButtons()
     }
     
-    let tabBar: TabBar = {
+    func setupCollectionView() {
+        collectionView?.backgroundColor = UIColor.white
+        collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0)
+        
+        collectionView?.isScrollEnabled = false
+        collectionView?.isPagingEnabled = true
+        
+        //self.collectionView!.register(VideoCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    }
+    
+    lazy var tabBar: TabBar = {
         let tb = TabBar()
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.homeViewController = self
         return tb
     }()
     
@@ -113,6 +68,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }()
     
     func customTabBar() {
+        navigationController?.hidesBarsOnSwipe = true
+        
         view.addSubview(tabBar)
         view.addSubview(separatorForTabBar)
         
@@ -140,32 +97,54 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func searchAction() {
-        
+        scrollToTabIndex(tabIndex: 2)
     }
     
     func userProfileAction() {
         
     }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos?.count ?? 0
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
-        
-        cell.video = videos?[indexPath.item]
-
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = (view.frame.width - 16 * 2) * 9 / 16
-        return CGSize(width: view.frame.width, height: height + 104)
+    
+    func scrollToTabIndex(tabIndex: Int) {
+        let indexPath = IndexPath(item: tabIndex, section: 0)
+        collectionView?.scrollToItem(at: indexPath, at: .left, animated: false)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        
+        let colors: [UIColor] = [.red, .green, .yellow, .magenta]
+        cell.backgroundColor = colors[indexPath.item]
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+
+//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return videos?.count ?? 0
+//    }
+//
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! VideoCell
+//        
+//        cell.video = videos?[indexPath.item]
+//
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let height = (view.frame.width - 16 * 2) * 9 / 16
+//        return CGSize(width: view.frame.width, height: height + 104)
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0
+//    }
 
 }

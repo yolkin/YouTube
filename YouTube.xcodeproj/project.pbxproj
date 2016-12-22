@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11333AEC1E0BE5F400EA8210 /* Maintenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11333AEB1E0BE5F400EA8210 /* Maintenance.swift */; };
 		1162C27C1DF80D5100EE7FE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1162C27B1DF80D5100EE7FE8 /* AppDelegate.swift */; };
 		1162C2811DF80D5100EE7FE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1162C27F1DF80D5100EE7FE8 /* Main.storyboard */; };
 		1162C2861DF80D5100EE7FE8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1162C2841DF80D5100EE7FE8 /* LaunchScreen.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11333AEB1E0BE5F400EA8210 /* Maintenance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maintenance.swift; sourceTree = "<group>"; };
 		1162C2781DF80D5100EE7FE8 /* YouTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1162C27B1DF80D5100EE7FE8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1162C2801DF80D5100EE7FE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 			children = (
 				1162C27B1DF80D5100EE7FE8 /* AppDelegate.swift */,
 				1162C28F1DF8103700EE7FE8 /* HomeViewController.swift */,
+				11333AEB1E0BE5F400EA8210 /* Maintenance.swift */,
 				119B03731DFEC6B6006B6369 /* VideoCell.swift */,
 				11E1B6671DF96B28001E4D63 /* TabBar.swift */,
 				11D7E9881E016457004EDFF1 /* TabBarCell.swift */,
@@ -153,6 +156,7 @@
 				11ABA8B61E07FBC70045A7C1 /* Video.swift in Sources */,
 				119B03741DFEC6B6006B6369 /* VideoCell.swift in Sources */,
 				1162C2901DF8103700EE7FE8 /* HomeViewController.swift in Sources */,
+				11333AEC1E0BE5F400EA8210 /* Maintenance.swift in Sources */,
 				11E1B6681DF96B28001E4D63 /* TabBar.swift in Sources */,
 				11D7E9891E016457004EDFF1 /* TabBarCell.swift in Sources */,
 			);

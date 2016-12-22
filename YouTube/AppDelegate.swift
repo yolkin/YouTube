@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension UIApplication {
+    var statusBarView: UIView? {
+        return value(forKey: "statusBar") as? UIView
+    }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,7 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let layout = UICollectionViewFlowLayout()
         window?.rootViewController = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: layout))
         
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        
         application.statusBarStyle = .lightContent
+        
+        UIApplication.shared.statusBarView?.backgroundColor = UIColor(red: 230/255, green: 32/255, blue: 31/255, alpha: 1)
         
         return true
     }

@@ -45,7 +45,6 @@ class VideoCell: UICollectionViewCell {
     
     let thumbnailImage: ModifiedImageView = {
         let imageView = ModifiedImageView()
-        imageView.image = UIImage(named: "drake_hotline_bling")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -61,7 +60,6 @@ class VideoCell: UICollectionViewCell {
     
     let profileImage: ModifiedImageView = {
         let imageView = ModifiedImageView()
-        imageView.image = UIImage(named: "drake")
         imageView.layer.cornerRadius = 22
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,14 +70,13 @@ class VideoCell: UICollectionViewCell {
     let videoTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Drake – Hotline Bling"
         return label
     }()
     
     let videoSubtitle: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "DrakeVEVO · 1 million views \n1 year ago"
+        textView.text = "DrakeVEVO · 1 million views \n2 year ago"
         textView.textContainerInset = UIEdgeInsetsMake(0, -4, 0, 0)
         textView.textColor = UIColor.lightGray
         textView.isUserInteractionEnabled = false

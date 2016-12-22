@@ -12,6 +12,7 @@ class TabBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     let reuseIdentifier = "Cell"
     let iconNames = ["home", "trending", "subscriptions", "library"]
+    var homeViewController: HomeViewController?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,6 +45,10 @@ class TabBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        homeViewController?.scrollToTabIndex(tabIndex: indexPath.item)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
