@@ -48,6 +48,7 @@ class VideoCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = UIImage(named: "drake_hotline_bling")
         return imageView
     }()
     
@@ -64,6 +65,7 @@ class VideoCell: UICollectionViewCell {
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "drake")
         return imageView
     }()
     
