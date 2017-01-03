@@ -13,7 +13,19 @@ class Maintenance: NSObject {
     static let sharedInstance = Maintenance()
     
     func getVideos(completion: @escaping ([Video]) -> ()) {
-        let url = URL(string: "https://www.dropbox.com/s/orjuv0w2ycsqc61/home.json?dl=1")
+        getVideosForUrlString(urlString: "https://www.dropbox.com/s/4aeaxexlfkpf4j8/home.json?dl=1", completion: completion)
+    }
+    
+    func getTrendingVideos(completion: @escaping ([Video]) -> ()) {
+        getVideosForUrlString(urlString: "https://www.dropbox.com/s/rym7mw3j29eq8dx/trending.json?dl=1", completion: completion)
+    }
+
+    func getSubscriptionVideos(completion: @escaping ([Video]) -> ()) {
+        getVideosForUrlString(urlString: "https://www.dropbox.com/s/0deay7a5euq85qq/subscription.json?dl=1", completion: completion)
+    }
+
+    func getVideosForUrlString(urlString: String, completion: @escaping ([Video]) -> ()) {
+        let url = URL(string: urlString)
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error != nil {
                 print(error!)
@@ -21,36 +33,17 @@ class Maintenance: NSObject {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                
-                var videos = [Video]()
-                
-                for dictionary in json as! [[String: AnyObject]] {
-                    let video = Video()
-                    video.videoTitle = dictionary["title"] as? String
-                    video.thumbnailImage = dictionary["thumbnail_image_name"] as? String
-                    
-                    let channelDictionary = dictionary["channel"] as! [String: AnyObject]
-                    
-                    let channel = Channel()
-                    channel.channelName = channelDictionary["name"] as? String
-                    channel.profileImage = channelDictionary["profile_image_name"] as? String
-                    
-                    video.channel = channel
-                    
-                    videos.append(video)
+                if let unwrappedData = data, let jsonDictionaries = try JSONSerialization.jsonObject(with: unwrappedData, options: .mutableContainers) as? [[String: AnyObject]] {
+        
+                    DispatchQueue.main.async(execute: {
+                        completion(jsonDictionaries.map({return Video(dictionary: $0)}))
+                    })
                 }
-                
-                DispatchQueue.main.async(execute: {
-                    completion(videos)
-                })
-                
             } catch let jsonError {
                 print(jsonError)
             }
             
-            }.resume()
-
+        }.resume()
     }
     
 }

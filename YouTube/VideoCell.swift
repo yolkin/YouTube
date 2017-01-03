@@ -18,7 +18,7 @@ class VideoCell: UICollectionViewCell {
             
             
             if let name = video?.channel?.channelName, let views = video?.numberOfViews {
-                videoSubtitle.text = "\(name) · \(views) \n2 year ago"
+                videoSubtitle.text = "\(name) · \(views) views \n2 year ago"
             }
             
             if let title = video?.videoTitle {

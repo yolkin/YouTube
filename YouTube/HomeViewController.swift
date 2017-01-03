@@ -9,6 +9,8 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
+private let trendingReuseIdentifier = "trendingCell"
+private let subscriptionReuseIdentifier = "subscriptionCell"
 
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
@@ -39,6 +41,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.isPagingEnabled = true
         
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView?.register(TrendingCell.self, forCellWithReuseIdentifier: trendingReuseIdentifier)
+        collectionView?.register(SubscriptionCell.self, forCellWithReuseIdentifier: subscriptionReuseIdentifier)
     }
     
     lazy var tabBar: TabBar = {
@@ -88,7 +92,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         scrollToTabIndex(tabIndex: 2)
     }
     
-    func userProfileAction() {
+    func userProfileAction() {  
         
     }
     
@@ -102,7 +106,17 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let reuseId: String
+        
+        if indexPath.item == 1 {
+            reuseId = trendingReuseIdentifier
+        } else if indexPath.item == 2 {
+            reuseId = subscriptionReuseIdentifier
+        } else {
+            reuseId = reuseIdentifier
+        }
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseId, for: indexPath)
         
         return cell
     }
