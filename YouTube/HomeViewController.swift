@@ -27,11 +27,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         titleLabel.font = UIFont.systemFont(ofSize: 18)
         navigationItem.titleView = titleLabel
         
+        navigationController?.hidesBarsOnSwipe = true
+        
         setupCollectionView()
         customTabBar()
         setupNavigationBarButtons()
     }
-    
+
     func setupCollectionView() {
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsetsMake(0, 0, 50, 0)
@@ -60,7 +62,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }()
     
     func customTabBar() {
-        navigationController?.hidesBarsOnSwipe = true
+        //navigationController?.hidesBarsOnSwipe = true
         
         view.addSubview(tabBar)
         view.addSubview(separatorForTabBar)
@@ -89,7 +91,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     func searchAction() {
-        scrollToTabIndex(tabIndex: 2)
+        
     }
     
     func userProfileAction() {  

@@ -26,6 +26,48 @@ class VideoPlayerView: UIView {
         return indicatorView
     }()
     
+    let durationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let playingTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var videoSlider: UISlider = {
+        let slider = UISlider()
+        slider.minimumTrackTintColor = .red
+        slider.maximumTrackTintColor = .white
+        slider.setThumbImage(UIImage(named: "thumb"), for: .normal)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.addTarget(self, action: #selector(changeSlider), for: .valueChanged)
+        return slider
+    }()
+    
+    func changeSlider() {
+        if let duration = player?.currentItem?.duration {
+            let seconds = CMTimeGetSeconds(duration)
+            let value = Double(videoSlider.value) * seconds
+            
+            let seekTime  = CMTime(value: Int64(value), timescale: 1)
+            
+            player?.seek(to: seekTime, completionHandler: { (completedSeek) in
+                
+            })
+        }
+    }
+    
     lazy var playPauseButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "pause"), for: .normal)
@@ -56,6 +98,7 @@ class VideoPlayerView: UIView {
         super.init(frame: frame)
         
         setupPlayer()
+        addGradient()
         
         controlsContainerView.frame = frame
         addSubview(controlsContainerView)
@@ -70,6 +113,24 @@ class VideoPlayerView: UIView {
         playPauseButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         playPauseButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        controlsContainerView.addSubview(durationLabel)
+        durationLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        durationLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        durationLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        durationLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        controlsContainerView.addSubview(playingTimeLabel)
+        playingTimeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        playingTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
+        playingTimeLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        playingTimeLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        controlsContainerView.addSubview(videoSlider)
+        videoSlider.rightAnchor.constraint(equalTo: durationLabel.leftAnchor).isActive = true
+        videoSlider.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        videoSlider.leftAnchor.constraint(equalTo: playingTimeLabel.rightAnchor).isActive = true
+        videoSlider.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         backgroundColor = .black
     }
     
@@ -78,7 +139,7 @@ class VideoPlayerView: UIView {
     }
     
     private func setupPlayer() {
-        let urlString = "https://r4---sn-4g5e6n7k.googlevideo.com/videoplayback?requiressl=yes&mn=sn-4g5e6n7k&mm=31&ipbits=0&mv=m&mt=1483444636&ms=au&ei=aJJrWIXoHoKMNNDKgKgG&expire=1483466440&ip=46.53.183.4&key=yt6&lmt=1471379947191087&dur=295.566&itag=22&id=o-AH4PVTr1eZrQboM_xwhvbQDGcY3RJ3CU9RzEnJMHkWG2&mime=video%2Fmp4&upn=NTGWEisu-bg&sparams=dur%2Cei%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cnh%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cupn%2Cexpire&initcwndbps=687500&pl=22&source=youtube&ratebypass=yes&nh=IgpwcjAyLmZyYTE1KgkxMjcuMC4wLjE&signature=654F64BDC319298AD7B9AFA86916540E22A26A66.5EF124D7001A4D476204B99429A746B564A6CEAA&title=Drake%20-%20Hotline%20Bling"
+        let urlString = "https://r1---sn-4g57knzr.googlevideo.com/videoplayback?expire=1483641023&nh=IgpwcjAyLmZyYTE1KgkxMjcuMC4wLjE&itag=18&mime=video%2Fmp4&source=youtube&clen=2209738&pfsc=ltr&ratebypass=yes&lmt=1387887786041169&gir=yes&upn=VrFRQQ1LslU&signature=4FE00B2F3652B04A232D6D37DD4277C75E84DB67.AAB9EA902E3E74CA5A2E5C8F80380BF42A6A5842&pl=19&mt=1483619202&id=o-AGxydZVlFsaixxq0WluOJsM01iXmBaM11GW3u7T5Qv8f&mv=m&initcwndbps=277500&ipbits=0&ms=au&mm=31&mn=sn-4g57knzr&ip=37.215.31.151&key=yt6&dur=31.184&ei=XzxuWOvAFdTedPmTh9gN&beids=%5B9452307%5D&requiressl=yes&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cnh%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cupn%2Cexpire&title=The%20Freeview%20HD%20Corgi%20Advert%20-%2030%20seconds"
         if let url = URL(string: urlString) {
             player = AVPlayer(url: url)
             
@@ -89,7 +150,30 @@ class VideoPlayerView: UIView {
             player?.play()
             
             player?.addObserver(self, forKeyPath: "currentItem.loadedTimeRanges", options: .new, context: nil)
+            
+            let interval = CMTime(value: 1, timescale: 2)
+            player?.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main, using: { (progressTime) in
+                let seconds = CMTimeGetSeconds(progressTime)
+                let secondsString = String(format: "%02d", Int(seconds.truncatingRemainder(dividingBy: 60)))
+                let minutesString = String(format: "%02d", Int(seconds / 60))
+                
+                self.playingTimeLabel.text = "\(minutesString):\(secondsString)"
+                
+                if let duration = self.player?.currentItem?.duration {
+                    let durationSeconds = CMTimeGetSeconds(duration)
+                    
+                    self.videoSlider.value = Float(seconds / durationSeconds)
+                }
+            })
         }
+    }
+    
+    private func addGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = bounds
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradientLayer.locations = [0.7, 1.2]
+        controlsContainerView.layer.addSublayer(gradientLayer)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -97,6 +181,14 @@ class VideoPlayerView: UIView {
             activityIndicatorView.stopAnimating()
             controlsContainerView.backgroundColor = .clear
             playPauseButton.isHidden = false
+            
+            if let duration = player?.currentItem?.duration {
+                let seconds = CMTimeGetSeconds(duration)
+                
+                let minutesText = String(format: "%02d", Int(seconds) / 60)
+                let secondsText = Int(seconds) % 60
+                durationLabel.text = "\(minutesText):\(secondsText)"
+            }
         }
     }
 }
