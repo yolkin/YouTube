@@ -11,6 +11,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 private let trendingReuseIdentifier = "trendingCell"
 private let subscriptionReuseIdentifier = "subscriptionCell"
+private let libraryReuseIdentifier = "libraryCell"
 
 
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
@@ -45,6 +46,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView?.register(TrendingCell.self, forCellWithReuseIdentifier: trendingReuseIdentifier)
         collectionView?.register(SubscriptionCell.self, forCellWithReuseIdentifier: subscriptionReuseIdentifier)
+        collectionView?.register(LibraryCell.self, forCellWithReuseIdentifier: libraryReuseIdentifier)
     }
     
     lazy var tabBar: TabBar = {
@@ -114,6 +116,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             reuseId = trendingReuseIdentifier
         } else if indexPath.item == 2 {
             reuseId = subscriptionReuseIdentifier
+        } else if indexPath.item == 3 {
+            reuseId = libraryReuseIdentifier
         } else {
             reuseId = reuseIdentifier
         }

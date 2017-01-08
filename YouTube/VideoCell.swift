@@ -10,6 +10,15 @@ import UIKit
 
 class VideoCell: UICollectionViewCell {
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        customizeCell()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var video: Video? {
         didSet {
             downloadThumbnail()
@@ -32,15 +41,6 @@ class VideoCell: UICollectionViewCell {
                 }
             }
         }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        customizeCell()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     let thumbnailImage: ModifiedImageView = {
@@ -72,6 +72,8 @@ class VideoCell: UICollectionViewCell {
     let videoTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
         return label
     }()
     

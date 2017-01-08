@@ -1,5 +1,5 @@
 //
-//  VideoLauncher.swift
+//  VideoPlayer.swift
 //  YouTube
 //
 //  Created by Alexander on 03.01.17.
@@ -30,7 +30,7 @@ class VideoPlayerView: UIView {
         let label = UILabel()
         label.text = "00:00"
         label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 11)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -40,7 +40,7 @@ class VideoPlayerView: UIView {
         let label = UILabel()
         label.text = "00:00"
         label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 11)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -116,13 +116,13 @@ class VideoPlayerView: UIView {
         controlsContainerView.addSubview(durationLabel)
         durationLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
         durationLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
-        durationLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        durationLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         durationLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
         controlsContainerView.addSubview(playingTimeLabel)
         playingTimeLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
         playingTimeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2).isActive = true
-        playingTimeLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        playingTimeLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
         playingTimeLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
         controlsContainerView.addSubview(videoSlider)
@@ -139,7 +139,7 @@ class VideoPlayerView: UIView {
     }
     
     private func setupPlayer() {
-        let urlString = "https://r1---sn-4g57knzr.googlevideo.com/videoplayback?expire=1483641023&nh=IgpwcjAyLmZyYTE1KgkxMjcuMC4wLjE&itag=18&mime=video%2Fmp4&source=youtube&clen=2209738&pfsc=ltr&ratebypass=yes&lmt=1387887786041169&gir=yes&upn=VrFRQQ1LslU&signature=4FE00B2F3652B04A232D6D37DD4277C75E84DB67.AAB9EA902E3E74CA5A2E5C8F80380BF42A6A5842&pl=19&mt=1483619202&id=o-AGxydZVlFsaixxq0WluOJsM01iXmBaM11GW3u7T5Qv8f&mv=m&initcwndbps=277500&ipbits=0&ms=au&mm=31&mn=sn-4g57knzr&ip=37.215.31.151&key=yt6&dur=31.184&ei=XzxuWOvAFdTedPmTh9gN&beids=%5B9452307%5D&requiressl=yes&sparams=clen%2Cdur%2Cei%2Cgir%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cnh%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cupn%2Cexpire&title=The%20Freeview%20HD%20Corgi%20Advert%20-%2030%20seconds"
+        let urlString = "https://www.dropbox.com/s/e3xzqcnc08crdue/Homer%27s%20Sirtaki.mp4?dl=1"
         if let url = URL(string: urlString) {
             player = AVPlayer(url: url)
             
@@ -195,6 +195,14 @@ class VideoPlayerView: UIView {
 
 class VideoLauncher: NSObject {
     
+    let minimizeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "minimize"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
     func showVideoPlayer() {
         if let keyWindow = UIApplication.shared.keyWindow {
             let view = UIView(frame: keyWindow.frame)
@@ -205,6 +213,17 @@ class VideoLauncher: NSObject {
             
             let vpView = VideoPlayerView(frame: CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: keyWindow.frame.width * 9 / 16))
             view.addSubview(vpView)
+            
+            view.addSubview(minimizeButton)
+            minimizeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            minimizeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            minimizeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
+            minimizeButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            
+            let viView = VideoInfoView(frame: CGRect(x: 0, y: keyWindow.frame.width * 9 / 16, width: keyWindow.frame.width, height: 600))
+            view.addSubview(viView)
+            viView.topAnchor.constraint(equalTo: vpView.bottomAnchor).isActive = true
+
             
             keyWindow.addSubview(view)
             

@@ -9,6 +9,7 @@
 import UIKit
 
 class FeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         customizeCell()
