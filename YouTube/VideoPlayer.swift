@@ -9,6 +9,12 @@
 import UIKit
 import AVFoundation
 
+enum stateOfPlayer {
+    case minimized
+    case fullScreen
+    case hidden
+}
+
 class VideoPlayerView: UIView {
     
     var player: AVPlayer?
@@ -72,8 +78,7 @@ class VideoPlayerView: UIView {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "pause"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .white
-        button.isHidden = true
+        button.tintColor = .clear
         
         button.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
         
@@ -94,6 +99,40 @@ class VideoPlayerView: UIView {
         }
     }
     
+    let minimizeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "minimize")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
+    func animatePlayer(_ sender: UITapGestureRecognizer) {
+        print("1111111")
+    }
+    
+    var  isControlViewHidden = false
+    
+    func handleTap(_ sender: UITapGestureRecognizer) {
+        if !isControlViewHidden {
+            durationLabel.isHidden = true
+            playingTimeLabel.isHidden = true
+            playPauseButton.isHidden = true
+            videoSlider.isHidden = true
+            minimizeButton.isHidden = true
+            
+            isControlViewHidden = true
+        } else {
+            durationLabel.isHidden = false
+            playingTimeLabel.isHidden = false
+            playPauseButton.isHidden = false
+            videoSlider.isHidden = false
+            minimizeButton.isHidden = false
+            
+            isControlViewHidden = false
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -101,6 +140,9 @@ class VideoPlayerView: UIView {
         addGradient()
         
         controlsContainerView.frame = frame
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        controlsContainerView.addGestureRecognizer(tap)
+        controlsContainerView.isUserInteractionEnabled = true
         addSubview(controlsContainerView)
         
         controlsContainerView.addSubview(activityIndicatorView)
@@ -131,13 +173,34 @@ class VideoPlayerView: UIView {
         videoSlider.leftAnchor.constraint(equalTo: playingTimeLabel.rightAnchor).isActive = true
         videoSlider.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
+        
+        let tapMinimize = UITapGestureRecognizer(target: self, action: #selector(animatePlayer(_:)))
+        minimizeButton.addGestureRecognizer(tapMinimize)
+        minimizeButton.isUserInteractionEnabled = true
+        
+        controlsContainerView.addSubview(minimizeButton)
+        minimizeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        minimizeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        minimizeButton.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 4).isActive = true
+        minimizeButton.topAnchor.constraint(equalTo: controlsContainerView.topAnchor).isActive = true
+        
+//        UIView.animate(withDuration: 0.5, delay: 25, options: .curveEaseOut, animations: {
+//            self.durationLabel.isHidden = true
+//            self.playingTimeLabel.isHidden = true
+//            self.playPauseButton.isHidden = true
+//            self.videoSlider.isHidden = true
+//            self.minimizeButton.isHidden = true
+//        }) { (finished) in
+//            self.isControlViewHidden = true
+//        }
+        
         backgroundColor = .black
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupPlayer() {
         let urlString = "https://www.dropbox.com/s/e3xzqcnc08crdue/Homer%27s%20Sirtaki.mp4?dl=1"
         if let url = URL(string: urlString) {
@@ -180,7 +243,7 @@ class VideoPlayerView: UIView {
         if keyPath == "currentItem.loadedTimeRanges" {
             activityIndicatorView.stopAnimating()
             controlsContainerView.backgroundColor = .clear
-            playPauseButton.isHidden = false
+            playPauseButton.tintColor = .white
             
             if let duration = player?.currentItem?.duration {
                 let seconds = CMTimeGetSeconds(duration)
@@ -195,14 +258,6 @@ class VideoPlayerView: UIView {
 
 class VideoLauncher: NSObject {
     
-    let minimizeButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "minimize"), for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-    
     func showVideoPlayer() {
         if let keyWindow = UIApplication.shared.keyWindow {
             let view = UIView(frame: keyWindow.frame)
@@ -214,13 +269,8 @@ class VideoLauncher: NSObject {
             let vpView = VideoPlayerView(frame: CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: keyWindow.frame.width * 9 / 16))
             view.addSubview(vpView)
             
-            view.addSubview(minimizeButton)
-            minimizeButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            minimizeButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-            minimizeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
-            minimizeButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            
             let viView = VideoInfoView(frame: CGRect(x: 0, y: keyWindow.frame.width * 9 / 16, width: keyWindow.frame.width, height: 600))
+            
             view.addSubview(viView)
             viView.topAnchor.constraint(equalTo: vpView.bottomAnchor).isActive = true
 

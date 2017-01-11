@@ -9,6 +9,7 @@
 import UIKit
 
 class VideoInfoView: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupVideoInfoView()
@@ -18,13 +19,13 @@ class VideoInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    let titleLabel: UILabel = {
+    var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
-        label.text = "Taylor Swift - I Knew You Were Trouble (Exclusive)"
+        label.text = "XXXXXXXX"
         return label
     }()
     
@@ -136,7 +137,7 @@ class VideoInfoView: UIView {
         let views = ["title": titleLabel, "numOfViews": numberOfViewsLabel, "like": likeButton, "separator1": separator1, "separator2": separator2, "subscribe": subscribeButton]
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[title]-16-|", options: NSLayoutFormatOptions(), metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[title(40)]-8-[numOfViews(11)]-8-[like(25)]", options: NSLayoutFormatOptions(), metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-16-[title(40)]-8-[numOfViews(13)]-8-[like(25)]", options: NSLayoutFormatOptions(), metrics: nil, views: views))
         
         //numberOfViews constraints
         addConstraint(NSLayoutConstraint(item: numberOfViewsLabel, attribute: .right, relatedBy: .equal, toItem: titleLabel, attribute: .right, multiplier: 1, constant: 0))
