@@ -19,13 +19,13 @@ class VideoInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
-        label.text = "XXXXXXXX"
+        label.text = "Homer Simpson – Sirtaki"
         return label
     }()
     
@@ -86,7 +86,7 @@ class VideoInfoView: UIView {
         return view
     }()
     
-    let profileImage: ModifiedImageView = {
+    var profileImage: ModifiedImageView = {
         let imageView = ModifiedImageView()
         imageView.layer.cornerRadius = 18
         imageView.layer.masksToBounds = true
@@ -99,7 +99,7 @@ class VideoInfoView: UIView {
     let channelNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.text = "DrakeVEVO"
         return label
     }()
@@ -107,7 +107,7 @@ class VideoInfoView: UIView {
     let numberOfFollowersLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         label.text = "777 111 followers"
         return label
@@ -181,13 +181,13 @@ class VideoInfoView: UIView {
         //channelName constraints
         addConstraint(NSLayoutConstraint(item: channelNameLabel, attribute: .left, relatedBy: .equal, toItem: profileImage, attribute: .right, multiplier: 1, constant: 8))
         addConstraint(NSLayoutConstraint(item: channelNameLabel, attribute: .right, relatedBy: .equal, toItem: subscribeButton, attribute: .left, multiplier: 1, constant: 8))
-        addConstraint(NSLayoutConstraint(item: channelNameLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 16))
+        addConstraint(NSLayoutConstraint(item: channelNameLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 17))
         addConstraint(NSLayoutConstraint(item: channelNameLabel, attribute: .top, relatedBy: .equal, toItem: separator1, attribute: .bottom, multiplier: 1, constant: 8))
         
         //numberOfFollowers constraints
         addConstraint(NSLayoutConstraint(item: numberOfFollowersLabel, attribute: .left, relatedBy: .equal, toItem: profileImage, attribute: .right, multiplier: 1, constant: 8))
         addConstraint(NSLayoutConstraint(item: numberOfFollowersLabel, attribute: .right, relatedBy: .equal, toItem: subscribeButton, attribute: .left, multiplier: 1, constant: 8))
-        addConstraint(NSLayoutConstraint(item: numberOfFollowersLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 14))
+        addConstraint(NSLayoutConstraint(item: numberOfFollowersLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 13))
         addConstraint(NSLayoutConstraint(item: numberOfFollowersLabel, attribute: .top, relatedBy: .equal, toItem: channelNameLabel, attribute: .bottom, multiplier: 1, constant: 4))
         
         //subscribe constraints

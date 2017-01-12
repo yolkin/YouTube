@@ -258,7 +258,9 @@ class VideoPlayerView: UIView {
 
 class VideoLauncher: NSObject {
     
-    func showVideoPlayer() {
+    var videos: [Video]?
+    
+    func showVideoPlayer(video: Video?) {
         if let keyWindow = UIApplication.shared.keyWindow {
             let view = UIView(frame: keyWindow.frame)
             view.backgroundColor = .white
@@ -270,7 +272,10 @@ class VideoLauncher: NSObject {
             view.addSubview(vpView)
             
             let viView = VideoInfoView(frame: CGRect(x: 0, y: keyWindow.frame.width * 9 / 16, width: keyWindow.frame.width, height: 600))
-            
+            viView.titleLabel.text = video?.videoTitle
+            viView.channelNameLabel.text = video?.channel?.channelName
+            viView.profileImage.downloadImageWith(imageURL: (video?.channel?.profileImage)!)
+            viView.numberOfViewsLabel.text = "\((video?.numberOfViews)!) views"
             view.addSubview(viView)
             viView.topAnchor.constraint(equalTo: vpView.bottomAnchor).isActive = true
 
