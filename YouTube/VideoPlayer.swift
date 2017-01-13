@@ -135,8 +135,13 @@ class VideoPlayerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupPlayer()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupContolsContainerView() {
         addGradient()
         
         controlsContainerView.frame = frame
@@ -184,25 +189,10 @@ class VideoPlayerView: UIView {
         minimizeButton.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 4).isActive = true
         minimizeButton.topAnchor.constraint(equalTo: controlsContainerView.topAnchor).isActive = true
         
-//        UIView.animate(withDuration: 0.5, delay: 25, options: .curveEaseOut, animations: {
-//            self.durationLabel.isHidden = true
-//            self.playingTimeLabel.isHidden = true
-//            self.playPauseButton.isHidden = true
-//            self.videoSlider.isHidden = true
-//            self.minimizeButton.isHidden = true
-//        }) { (finished) in
-//            self.isControlViewHidden = true
-//        }
-        
         backgroundColor = .black
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
-    private func setupPlayer() {
-        let urlString = "https://www.dropbox.com/s/e3xzqcnc08crdue/Homer%27s%20Sirtaki.mp4?dl=1"
+    func setupPlayer(urlString: String) {
         if let url = URL(string: urlString) {
             player = AVPlayer(url: url)
             
@@ -258,8 +248,6 @@ class VideoPlayerView: UIView {
 
 class VideoLauncher: NSObject {
     
-    var videos: [Video]?
-    
     func showVideoPlayer(video: Video?) {
         if let keyWindow = UIApplication.shared.keyWindow {
             let view = UIView(frame: keyWindow.frame)
@@ -269,6 +257,8 @@ class VideoLauncher: NSObject {
             view.frame = CGRect(x: keyWindow.frame.width - 10, y: keyWindow.frame.height - 10, width: 10, height: 10)
             
             let vpView = VideoPlayerView(frame: CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: keyWindow.frame.width * 9 / 16))
+            vpView.setupPlayer(urlString: (video?.urlString)!)
+            vpView.setupContolsContainerView()
             view.addSubview(vpView)
             
             let viView = VideoInfoView(frame: CGRect(x: 0, y: keyWindow.frame.width * 9 / 16, width: keyWindow.frame.width, height: 600))
@@ -276,6 +266,9 @@ class VideoLauncher: NSObject {
             viView.channelNameLabel.text = video?.channel?.channelName
             viView.profileImage.downloadImageWith(imageURL: (video?.channel?.profileImage)!)
             viView.numberOfViewsLabel.text = "\((video?.numberOfViews)!) views"
+            viView.numberOfLikesLabel.text = video?.numberOfLikes
+            viView.numberOfDislikesLabel.text = video?.numbersOfDislikes
+            viView.numberOfFollowersLabel.text = "\((video?.channel?.numberOfFollowers)!) followers"
             view.addSubview(viView)
             viView.topAnchor.constraint(equalTo: vpView.bottomAnchor).isActive = true
 

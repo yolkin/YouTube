@@ -25,9 +25,8 @@ class VideoCell: UICollectionViewCell {
             downloadProfileImage()
             videoTitle.text = video?.videoTitle
             
-            
-            if let name = video?.channel?.channelName, let views = video?.numberOfViews {
-                videoSubtitle.text = "\(name) · \(views) views \n2 year ago"
+            if let name = video?.channel?.channelName, let views = video?.numberOfViews, let date = video?.uploadDate {
+                videoSubtitle.text = "\(name) · \(views) views \n\(date)"
             }
             
             if let title = video?.videoTitle {

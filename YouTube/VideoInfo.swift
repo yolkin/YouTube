@@ -150,7 +150,7 @@ class VideoInfoView: UIView {
         
         //numberOfLikes constraints
         addConstraint(NSLayoutConstraint(item: numberOfLikesLabel, attribute: .left, relatedBy: .equal, toItem: likeButton, attribute: .right, multiplier: 1, constant: 4))
-        addConstraint(NSLayoutConstraint(item: numberOfLikesLabel, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0, constant: 35))
+        addConstraint(NSLayoutConstraint(item: numberOfLikesLabel, attribute: .width, relatedBy: .equal, toItem: self, attribute: .width, multiplier: 0, constant: 40))
         addConstraint(NSLayoutConstraint(item: numberOfLikesLabel, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0, constant: 25))
         addConstraint(NSLayoutConstraint(item: numberOfLikesLabel, attribute: .top, relatedBy: .equal, toItem: numberOfViewsLabel, attribute: .bottom, multiplier: 1, constant: 8))
         

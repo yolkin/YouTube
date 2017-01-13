@@ -13,8 +13,11 @@ class Video: NSObject {
     var thumbnailImage: String?
     var videoTitle: String?
     var numberOfViews: NSNumber?
-    var uploadDate: NSDate?
+    var uploadDate: String?
     var videoDuration: NSNumber?
+    var numberOfLikes: String?
+    var numbersOfDislikes: String?
+    var urlString: String?
     
     var channel: Channel?
     
@@ -48,4 +51,5 @@ class Video: NSObject {
 class Channel: NSObject {
     var channelName: String?
     var profileImage: String?
+    var numberOfFollowers: String?
 }
